@@ -22,7 +22,7 @@ router
   .route('/')
   .get(questionController.getAllQuestions)
   .post(
-    authController.restrictTo('user', 'admin'),
+    authController.restrictTo('admin'),
     questionController.addUser,
     questionController.createQuestion
   );

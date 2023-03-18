@@ -166,7 +166,7 @@ exports.getExams = catchAsync(async (req, res, next) => {
     types = types.replaceAll('-', ' ').split(',');
   }
 
-  count = count * 1 || 100;
+  count = count * 1 || 200;
   own = own * 1 === 0 ? false : true;
   completed = completed * 1 === 0 ? false : true;
   const checkId = req.user.statistics.uniqueQuestions.map((id) =>
