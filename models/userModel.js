@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const Question = require('./questionModel');
+const AppError = require('./../utils/appError');
 
 const userSchema = new mongoose.Schema(
   {
@@ -13,7 +14,7 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: [true, 'Prosím, uveď e-mail.'],
-      unique: true,
+      unique: [true, 'Takový e-mail už existuje.'],
       lowercase: true,
       validate: [validator.isEmail, 'Prosím, uveď platný e-mail.'],
     },
@@ -78,6 +79,13 @@ const userSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+// userSchema.post('save', (error) => {
+//   if (error.name === 'MongoError' && error.code === 11000) {
+//     next(new AppError('E-mail už v databázi existuje', 401));
+//   } else {
+//     next();
+//   }
+// });
 
 userSchema.pre('save', async function (next) {
   // Only run this function if password was actually modified
